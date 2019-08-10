@@ -64,5 +64,26 @@ public class Client {
         readMessage.start(); 
   
     } 
+	
+	
+	private String encrypt(int key) {
+		String msg="";
+		return msg;
+	}
+	
+	private String decrypt(int key) {
+		String msg="";
+		return msg;
+	}
+	
+	private String encrKey(int number) {
+		String hexKey = "";
+		return hexKey;
+	}
+	
+	private int decrKey(String key) {
+		int intKey = 0;
+		return intKey;
+	}
 } 
 
