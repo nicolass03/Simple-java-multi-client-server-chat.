@@ -1,7 +1,7 @@
 # Simple-java-multi-client-server-chat.
 Here is an example of a multi-client chat developed in java with Caesar's encryption. 
 
-Here is the format for chatting: message#client #.
+Here is the format for chatting: message#client *number of the client receiver*.
 
 Example: 
 
