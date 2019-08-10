@@ -20,7 +20,8 @@ class ClientThread implements Runnable  {
         this.dos = dos; 
         this.name = name; 
         this.s = s; 
-        this.isloggedin=true; 
+        this.isloggedin=true;
+        init();
     } 
   
     @Override
@@ -55,7 +56,7 @@ class ClientThread implements Runnable  {
                     // output stream 
                     if (mc.name.equals(recipient) && mc.isloggedin==true)  
                     { 
-                        mc.dos.writeUTF(this.name+" : "+MsgToSend); 
+                        mc.dos.writeUTF(this.name+":"+MsgToSend); 
                         break; 
                     } 
                 } 
@@ -74,5 +75,28 @@ class ClientThread implements Runnable  {
         }catch(IOException e){ 
             e.printStackTrace(); 
         } 
-    } 
+    }
+    
+    private void init() {
+    	
+    	 for (ClientThread mc : Server.clients)  
+         { 
+             try {
+            	if(mc != this) {
+            		mc.dos.writeUTF("$"+encrKey(Server.availableKeys.get(0))+"%$"+this.name+"$");
+            		dos.writeUTF("$"+encrKey(Server.availableKeys.get(0))+"%$"+mc.name+"$");
+            		System.out.println("$"+encrKey(Server.availableKeys.get(0))+"%$"+mc.name+"$");
+            		Server.availableKeys.remove(0);    
+            	}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+         } 
+    }
+    
+    private String encrKey(int number) {
+		String hexKey = Integer.toHexString(number);
+		System.out.println(hexKey);
+		return hexKey;
+	}
 } 

@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.geom.GeneralPath;
 import java.io.*; 
 import java.util.*; 
 import java.net.*; 
@@ -8,6 +9,7 @@ import java.net.*;
 public class Server  
 { 
   
+	static Vector<Integer> availableKeys = new Vector<Integer>();
     // Vector to store active clients 
     static Vector<ClientThread> clients = new Vector<>(); 
       
@@ -16,7 +18,8 @@ public class Server
   
     public static void main(String[] args) throws IOException  
     { 
-        // server is listening on port 1234 
+    	generateKeys();
+        // server is listening on port 5555 
         ServerSocket ss = new ServerSocket(5555); 
           
         Socket s; 
@@ -34,7 +37,7 @@ public class Server
             DataInputStream dis = new DataInputStream(s.getInputStream()); 
             DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
               
-            System.out.println("Creating a new handler for this client..."); 
+            System.out.println("Creating a new handler for this client...");
   
             // Create a new handler object for handling this request. 
             ClientThread mtch = new ClientThread(s,"client " + connectedClients, dis, dos); 
@@ -57,4 +60,11 @@ public class Server
   
         } 
     } 
+    
+    private static void generateKeys() {
+    	for(int i = 0; i < 20;i++) {
+    		availableKeys.add(i+1);
+    	}
+    	Collections.shuffle(availableKeys);
+    }
 } 
