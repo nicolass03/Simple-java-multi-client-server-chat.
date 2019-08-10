@@ -1,6 +1,5 @@
 package server;
 
-import java.awt.geom.GeneralPath;
 import java.io.*; 
 import java.util.*; 
 import java.net.*; 
@@ -8,7 +7,7 @@ import java.net.*;
 // Server class 
 public class Server  
 { 
-  
+	//vector of available keys to assign
 	static Vector<Integer> availableKeys = new Vector<Integer>();
     // Vector to store active clients 
     static Vector<ClientThread> clients = new Vector<>(); 
@@ -18,10 +17,13 @@ public class Server
   
     public static void main(String[] args) throws IOException  
     { 
+    	//Generates random keys
     	generateKeys();
+    	
         // server is listening on port 5555 
         ServerSocket ss = new ServerSocket(5555); 
-          
+         
+        //socket of the server
         Socket s; 
           
         // running infinite loop for getting 
@@ -36,8 +38,6 @@ public class Server
             // obtain input and output streams 
             DataInputStream dis = new DataInputStream(s.getInputStream()); 
             DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
-              
-            System.out.println("Creating a new handler for this client...");
   
             // Create a new handler object for handling this request. 
             ClientThread mtch = new ClientThread(s,"client " + connectedClients, dis, dos); 
@@ -45,8 +45,6 @@ public class Server
             // Create a new Thread with this object. 
             Thread t = new Thread(mtch); 
               
-            System.out.println("Adding this client to active client list"); 
-  
             // add this client to active clients list 
             clients.add(mtch); 
   
@@ -61,6 +59,7 @@ public class Server
         } 
     } 
     
+    //Generates random integer from 1 to 20
     private static void generateKeys() {
     	for(int i = 0; i < 20;i++) {
     		availableKeys.add(i+1);

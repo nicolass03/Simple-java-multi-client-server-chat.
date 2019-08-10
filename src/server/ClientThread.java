@@ -7,11 +7,23 @@ import java.net.*;
 import java.util.*;
 
 class ClientThread implements Runnable  { 
+	
+	//Scanner 
     Scanner scn = new Scanner(System.in); 
-    private String name; 
+    
+    //Name of the client
+    private String name;
+    
+    //input
     final DataInputStream dis; 
+    
+    //output
     final DataOutputStream dos; 
+    
+    //socket
     Socket s; 
+    
+    //attribute that register if is online or not
     boolean isloggedin; 
       
     // constructor 
@@ -28,10 +40,9 @@ class ClientThread implements Runnable  {
     public void run() { 
   
         String received; 
-        while (true)  
-        { 
-            try
-            { 
+        
+        while (true)  { 
+            try { 
                 // receive the string 
                 received = dis.readUTF(); 
                   
@@ -50,24 +61,22 @@ class ClientThread implements Runnable  {
   
                 // search for the recipient in the connected devices list. 
                 // ar is the vector storing client of active users 
-                for (ClientThread mc : Server.clients)  
-                { 
+                for (ClientThread mc : Server.clients)  { 
                     // if the recipient is found, write on its 
                     // output stream 
-                    if (mc.name.equals(recipient) && mc.isloggedin==true)  
-                    { 
+                    if (mc.name.equals(recipient) && mc.isloggedin==true)  { 
                         mc.dos.writeUTF(this.name+":"+MsgToSend); 
                         break; 
                     } 
                 } 
-            } catch (IOException e) { 
+            } 
+            catch (IOException e) { 
                   
                 e.printStackTrace(); 
             } 
               
         } 
-        try
-        { 
+        try { 
             // closing resources 
             this.dis.close(); 
             this.dos.close(); 
@@ -77,6 +86,10 @@ class ClientThread implements Runnable  {
         } 
     }
     
+    /**
+     * This service runs whenever a new client starts, stablishes a key for each of the other clients, stores it and sends it to 
+     * each client.
+     */
     private void init() {
     	
     	 for (ClientThread mc : Server.clients)  
@@ -94,6 +107,11 @@ class ClientThread implements Runnable  {
          } 
     }
     
+    /**
+     * Service that encrypts the key for Caesars encryption.
+     * @param number
+     * @return
+     */
     private String encrKey(int number) {
 		String hexKey = Integer.toHexString(number);
 		System.out.println(hexKey);
